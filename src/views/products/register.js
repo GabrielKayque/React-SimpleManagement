@@ -1,4 +1,5 @@
 import React from "react";
+import ProductService from "../../app/productService";
 
 
 const firstState = {
@@ -6,13 +7,20 @@ const firstState = {
         sku: '',
         description: '',
         price: '',
-        supplier: ''
+        supplier: '',
+        success: false
+
 }
 
 
 export default class RegisterProduct extends React.Component {
-
+    
     state = firstState;
+
+    constructor(){
+        super()
+        this.service = new ProductService()
+    }
 
     onChange = (event) => {
         const value = event.target.value
@@ -22,11 +30,27 @@ export default class RegisterProduct extends React.Component {
     }
     
     onSubmit = (event) => {
-        console.log(this.state)
+        const product = {
+            name: this.state.name,
+            sku: this.state.sku,
+            description: this.state.description,
+            price: this.state.price,
+            supplier: this.state.supplier
+        }
+
+        this.service.save(product)
+        this.cleanFields()
+        this.setState({ success: true})
     }
 
     cleanFields = () => {
         this.setState(firstState)
+    }
+
+    hide = (event) => {
+        this.setState({
+            [event.target.name]: false
+        })
     }
 
 
@@ -37,6 +61,17 @@ export default class RegisterProduct extends React.Component {
                      REGISTER A PRODUCT
                 </div>
                 <div className="card-body" onChange={this.onChange}>
+                    
+                    {/* this is conditionally rendering the alert box success message */}
+                    {this.state.success &&
+                        (
+                            <div class="alert alert-dismissible alert-success">
+                                <button type="button" name="success" onClick={this.hide} className="btn-close" data-bs-dismiss="alert"></button>
+                                <strong>Well done!</strong> You successfully registered a product.
+                            </div>
+                        )
+                    }
+
                     <div className="row">
                         <div className="col-md-6">
                             <div className="form-group">
