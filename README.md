@@ -1,6 +1,6 @@
 # Management Products
 
-A simple management product system running client-side.
+A simple management product system running client-side(ReactJS).
 Using bootstrap with bootswatch(bootstrap themes) to stylize.
 
 # Future API sytem with Django
