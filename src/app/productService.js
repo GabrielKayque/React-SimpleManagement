@@ -21,6 +21,11 @@
         }
     }
 
+    getProduct = () => {
+        const products = localStorage.getItem(PRODUCTS)
+        return JSON.parse(products) 
+    
+    }
 
     save = (product) => {
         this.validate(product)
