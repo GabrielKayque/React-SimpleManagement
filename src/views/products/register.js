@@ -28,7 +28,6 @@ export default class RegisterProduct extends React.Component {
         const field = event.target.name
         this.setState({ 
             [field]: value}) 
-        console.log(this.state.errors)
     }
     
     onSubmit = (event) => {
@@ -72,7 +71,7 @@ export default class RegisterProduct extends React.Component {
                     {/* this is conditionally rendering the alert box SUCCESS message */}
                     {this.state.success &&
                         (
-                            <div class="alert alert-dismissible alert-success">
+                            <div className="alert alert-dismissible alert-success">
                                 <button type="button" name="success" onClick={this.hide} className="btn-close" data-bs-dismiss="alert"></button>
                                 <strong>Well done!</strong> You successfully registered a product.
                             </div>
@@ -82,8 +81,8 @@ export default class RegisterProduct extends React.Component {
                     {this.state.errors.length > 0 &&
                         this.state.errors.map(message => {
                             return (
-                                <div class="alert alert-dismissible alert-danger">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <div className="alert alert-dismissible alert-danger">
+                                    <button type="button" className="btn-close" data-bs-dismiss="alert"></button>
                                     <strong>ERROR!</strong> {message}
                                 </div>
                             )
