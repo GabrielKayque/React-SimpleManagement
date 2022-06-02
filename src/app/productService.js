@@ -22,9 +22,11 @@
     }
 
     getProduct = () => {
-        const products = localStorage.getItem(PRODUCTS)
-        return JSON.parse(products) 
-    
+        let products = localStorage.getItem(PRODUCTS)
+        if(products) {
+            return JSON.parse(products) 
+        }
+        
     }
 
     save = (product) => {
