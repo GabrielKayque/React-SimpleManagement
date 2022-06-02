@@ -17,7 +17,11 @@ export default class ProductsCatalog extends React.Component {
         const products = this.service.getProduct()
         this.setState({ products })
     }
-       
+    
+    delete = (sku) => {
+        const products = this.service.delete(sku)
+        this.setState({products})
+    }
 
     render () {
         return (
@@ -47,7 +51,7 @@ export default class ProductsCatalog extends React.Component {
                                         <th>{product.supplier}</th>
                                         <th>
                                             <Link to={`/register-products/${product.sku}`}><button className="btn btn-primary">Edit</button></Link>
-                                            <button className="btn btn-danger">Delete</button>
+                                            <button onClick={() => this.delete(product.sku)} className="btn btn-danger">Delete</button>
                                         </th>
                                     </tr>
                                 )

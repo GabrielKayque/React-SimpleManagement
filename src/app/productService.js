@@ -29,6 +29,26 @@
         
     }
 
+    getIndex = (sku) => {
+        let index = null
+        this.getProduct().forEach((product, i) => {
+            if (product.sku == sku) {
+                index = i
+            }
+        });
+        return index
+    }
+
+    delete = (sku) => {
+        const index = this.getIndex(sku)
+        if(index !== null){
+            const products = this.getProduct()
+            products.splice(index, 1)
+            localStorage.setItem(PRODUCTS, JSON.stringify(products))
+            return products
+        }
+    }
+
     save = (product) => {
         this.validate(product)
 
@@ -40,7 +60,13 @@
             products = JSON.parse(products)
         }
 
-        products.push(product);
+        const index = this.getIndex(product.sku)
+        console.log(index)
+        if(index === null) {
+            products.push(product);
+        }else{
+            products[index] = product
+        }
 
         localStorage.setItem(PRODUCTS, JSON.stringify(products))
     }
