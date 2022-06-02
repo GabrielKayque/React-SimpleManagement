@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import ProductService from "../../app/productService";
+import { useParams } from "react-router-dom";
 
 
 const firstState = {
@@ -14,8 +15,12 @@ const firstState = {
 }
 
 
-export default class RegisterProduct extends React.Component {
-    
+export function RegisterProductParam() {
+    const {sku} = useParams();
+    return (< RegisterProduct sku={sku} />)
+}
+
+export default class RegisterProduct extends Component {
     state = firstState;
 
     constructor(){
@@ -58,6 +63,13 @@ export default class RegisterProduct extends React.Component {
         })
     }
 
+    componentDidMount(){
+        if(this.props.sku){
+            const { sku } = this.props
+            console.log(sku)
+        }
+    }
+
 
     render() {
         return (
@@ -66,7 +78,7 @@ export default class RegisterProduct extends React.Component {
                      REGISTER A PRODUCT
                      <p><small><small>* Mandatory Fields</small></small></p>
                 </div>
-                <div className="card-body" onChange={this.onChange}>
+                <div className="card-body">
                     
                     {/* this is conditionally rendering the alert box SUCCESS message */}
                     {this.state.success &&
@@ -77,6 +89,7 @@ export default class RegisterProduct extends React.Component {
                             </div>
                         )
                     }
+                    
                     {/* this is conditionally rendering the alert box ERROR message */}
                     {this.state.errors.length > 0 &&
                         this.state.errors.map(message => {
@@ -93,13 +106,13 @@ export default class RegisterProduct extends React.Component {
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>Name: *</label>
-                                <input type="text" name="name"  value={this.state.name} className="form-control"/>
+                                <input type="text" name="name"  onChange={this.onChange} value={this.state.name} className="form-control"/>
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>SKU: *</label>
-                                <input type="text"  name="sku"  value={this.state.sku} className="form-control"/>
+                                <input type="text"  name="sku"  onChange={this.onChange} value={this.state.sku} className="form-control"/>
                             </div>
                         </div>
                     </div>
@@ -108,7 +121,7 @@ export default class RegisterProduct extends React.Component {
                         <div className="col-md-12">
                             <div className="form-group">
                                 <label>Description: </label>
-                                <textarea name="description"  value={this.state.description} className="form-control" />
+                                <textarea name="description"  onChange={this.onChange} value={this.state.description} className="form-control" />
                             </div>
                         </div>
                     </div>
@@ -117,21 +130,21 @@ export default class RegisterProduct extends React.Component {
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>Price: *</label>
-                                <input type="number" name="price"  value={this.state.price} className="form-control"/>
+                                <input type="number" name="price"  onChange={this.onChange} value={this.state.price} className="form-control"/>
                             </div>
                         </div>
 
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>Supplier: *</label>
-                                <input type="text" name="supplier"  value={this.state.supplier} className="form-control"/>
+                                <input type="text" name="supplier"  onChange={this.onChange} value={this.state.supplier} className="form-control"/>
                             </div>
                         </div>
                     </div>
                     <br/>
                     <div className="row">
                         <div className="col-sm-2 col-md-2 col-lg-1"><button onClick={this.onSubmit} className="btn btn-success">Save</button></div>
-                        <div className="col-sm-2 col-md-2"><button onClick={this.cleanFields} className="btn btn-primary">Clean All</button></div>
+                        <div className="col-sm-3 col-md-2"><button onClick={this.cleanFields} className="btn btn-primary">Clean All</button></div>
                     </div>
 
                 </div>
