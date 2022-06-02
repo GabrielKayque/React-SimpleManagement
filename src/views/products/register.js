@@ -10,7 +10,8 @@ const firstState = {
         price: '',
         supplier: '',
         success: false,
-        errors: []
+        errors: [],
+        editing: false
 
 }
 
@@ -66,7 +67,11 @@ export default class RegisterProduct extends Component {
     componentDidMount(){
         if(this.props.sku){
             const { sku } = this.props
-            console.log(sku)
+            const result = this.service.getProduct().filter( product => product.sku === sku)
+            if(result.length === 1){
+                const productFound = result[0]
+                this.setState({...productFound, editing:true})
+            }
         }
     }
 
@@ -75,8 +80,9 @@ export default class RegisterProduct extends Component {
         return (
             <div className="card">
                 <div className="card-header">
-                     REGISTER A PRODUCT
-                     <p><small><small>* Mandatory Fields</small></small></p>
+                    {this.state.editing ? 'EDITING ' : 'REGISTER A '}
+                    PRODUCT
+                    <p><small><small>* Mandatory Fields</small></small></p>
                 </div>
                 <div className="card-body">
                     
@@ -106,13 +112,13 @@ export default class RegisterProduct extends Component {
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>Name: *</label>
-                                <input type="text" name="name"  onChange={this.onChange} value={this.state.name} className="form-control"/>
+                                <input type="text" name="name" onChange={this.onChange} value={this.state.name} className="form-control" />
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="form-group">
                                 <label>SKU: *</label>
-                                <input type="text"  name="sku"  onChange={this.onChange} value={this.state.sku} className="form-control"/>
+                                <input type="text" name="sku" disabled={this.state.editing} onChange={this.onChange} value={this.state.sku} className="form-control" />
                             </div>
                         </div>
                     </div>
@@ -143,7 +149,7 @@ export default class RegisterProduct extends Component {
                     </div>
                     <br/>
                     <div className="row">
-                        <div className="col-sm-2 col-md-2 col-lg-1"><button onClick={this.onSubmit} className="btn btn-success">Save</button></div>
+                        <div className="col-sm-2 col-md-2 col-lg-1"><button onClick={this.onSubmit} className="btn btn-success">{this.state.editing ? 'Update' : 'Save'}</button></div>
                         <div className="col-sm-3 col-md-2"><button onClick={this.cleanFields} className="btn btn-primary">Clean All</button></div>
                     </div>
 
